@@ -1,0 +1,11 @@
+[tools]
+bun = "latest"
+
+[tasks.setup]
+run = ["bun i"]
+dir = "{{ config_root }}/scripts"
+
+[tasks."install:swift"]
+run_windows = ['bun run scripts/install-vs.ts', '''
+winget install --id Swift.Toolchain -e
+''']

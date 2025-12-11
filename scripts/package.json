@@ -1,0 +1,6 @@
+{
+  "name": "scripts",
+  "devDependencies": {
+    "@types/bun": "^1.3.4"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:favicon-fella}/app",
+      "name": "Debug MyCLI (app)",
+      "target": "MyCLI",
+      "configuration": "debug",
+      "preLaunchTask": "swift: Build Debug MyCLI (app)"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:favicon-fella}/app",
+      "name": "Release MyCLI (app)",
+      "target": "MyCLI",
+      "configuration": "release",
+      "preLaunchTask": "swift: Build Release MyCLI (app)"
+    }
+  ]
+}
