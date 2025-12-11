@@ -5,20 +5,20 @@
       "request": "launch",
       "args": [],
       "cwd": "${workspaceFolder:favicon-fella}/app",
-      "name": "Debug MyCLI (app)",
-      "target": "MyCLI",
+      "name": "Debug FaviconFella (app)",
+      "target": "FaviconFella",
       "configuration": "debug",
-      "preLaunchTask": "swift: Build Debug MyCLI (app)"
+      "preLaunchTask": "swift: Build Debug FaviconFella (app)"
     },
     {
       "type": "swift",
       "request": "launch",
       "args": [],
       "cwd": "${workspaceFolder:favicon-fella}/app",
-      "name": "Release MyCLI (app)",
-      "target": "MyCLI",
+      "name": "Release FaviconFella (app)",
+      "target": "FaviconFella",
       "configuration": "release",
-      "preLaunchTask": "swift: Build Release MyCLI (app)"
+      "preLaunchTask": "swift: Build Release FaviconFella (app)"
     }
   ]
 }

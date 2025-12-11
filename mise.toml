@@ -1,5 +1,6 @@
 [tools]
 bun = "latest"
+gh = "latest"
 
 [tasks.setup]
 run = ["bun i"]
@@ -9,3 +10,15 @@ dir = "{{ config_root }}/scripts"
 run_windows = ['bun run scripts/install-vs.ts', '''
 winget install --id Swift.Toolchain -e
 ''']
+
+[tasks.run]
+run = ["swift run"]
+dir = "{{ config_root }}/app"
+
+[tasks.build]
+run = ["swift build"]
+dir = "{{ config_root }}/app"
+
+[tasks.clean]
+run = ["swift package clean"]
+dir = "{{ config_root }}/app"

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "types": ["bun"],
     "module": "esnext",
+    "moduleResolution": "bundler",
     "target": "esnext"
   }
 }
