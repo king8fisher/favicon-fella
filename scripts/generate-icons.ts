@@ -90,34 +90,38 @@ async function generateFaviconIco(
   const sizes = [16, 32, 48];
   const outputPath = join(outputDir, "favicon.ico");
 
-  // Generate PNG buffers for each size
+  // Generate PNG buffers for each size (PNG-embedded ICO is more compatible)
+  // Ensure RGBA format - convert to raw RGBA then back to PNG to guarantee alpha channel
   const pngBuffers = await Promise.all(
-    sizes.map((size) =>
-      sharp(inputPath)
+    sizes.map(async (size) => {
+      // First get raw RGBA data
+      const { data, info } = await sharp(inputPath)
         .resize(size, size, {
           fit: "contain",
           background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
+        .ensureAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+
+      // Then create PNG from raw RGBA - this guarantees RGBA output
+      return sharp(data, {
+        raw: {
+          width: info.width,
+          height: info.height,
+          channels: 4,
+        },
+      })
         .png()
-        .toBuffer()
-    )
+        .toBuffer();
+    })
   );
 
-  // Build ICO file manually
-  // ICO format: ICONDIR header + ICONDIRENTRY for each image + image data
-  const images: { size: number; buffer: Buffer }[] = [];
-
-  for (let i = 0; i < sizes.length; i++) {
-    // Convert PNG to raw RGBA for ICO
-    const { data, info } = await sharp(pngBuffers[i])
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    images.push({
-      size: sizes[i],
-      buffer: await createBmpFromRgba(data, info.width, info.height),
-    });
-  }
+  // Build ICO file with embedded PNGs (modern format, better compatibility)
+  const images: { size: number; buffer: Buffer }[] = sizes.map((size, i) => ({
+    size,
+    buffer: pngBuffers[i],
+  }));
 
   // ICONDIR: 6 bytes
   // ICONDIRENTRY: 16 bytes each
@@ -154,7 +158,7 @@ async function generateFaviconIco(
     dataOffset += img.buffer.length;
   }
 
-  // Image data
+  // Image data (PNG buffers directly)
   let currentOffset = headerSize;
   for (const img of images) {
     img.buffer.copy(ico, currentOffset);
